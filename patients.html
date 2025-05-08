@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Gallery - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================= */
+/* BASE STYLES & VARIABLES */
+/* ============================================= */
+
+:root {
+    --bg-color: #f5f7fa;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: rgba(255, 255, 255, 0.9);
+    --sidebar-active: #00bfff;
+    --card-bg: #ffffff; /* Light theme card background */
+    --text-color: #2c3e50;
+    --text-muted: #7a8ba9;
+    --border-color: #e1e5eb;
+    --hover-bg: #f0f4f8;
+    --today-bg: #e6f7ff;
+    --selected-bg: #00bfff;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --modal-bg: #ffffff;
+    --modal-text: #2c3e50;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --sidebar-bg: #151e25;
+    --sidebar-text: rgba(255, 255, 255, 0.85);
+    --sidebar-active: #00bfff;
+    --card-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --text-muted: #aaa;
+    --border-color: #444;
+    --hover-bg: #333;
+    --today-bg: #003366;
+    --selected-bg: #006699;
+    --selected-text: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --modal-bg: #2d2d2d;
+    --modal-text: #e0e0e0;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    transition: background-color 0.3s ease;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: var(--bg-color);
+    color: var(--sidebar-text);
+}
+
+/* ============================================= */
+/* LAYOUT & STRUCTURE */
+/* ============================================= */
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--text-color);
+}
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.main-content {
+    flex-direction: column;
+    padding: 30px;
+    display: flex;
+    flex: 3;
+    transition: background-color 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
+
+.return-home-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.return-home-menu li {
+    margin-bottom: 5px;
+}
+
+.return-home-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.return-home-menu a:hover, .return-home-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.return-home-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+/* ============================================= */
+/* SIDEBAR COMPONENTS */
+/* ============================================= */
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-right: -5px;
+    margin-top: -45px;
+    margin-left: -20px;
+    object-fit: cover;
+}
+
+.sidebar-title h2 {
+    color: var(--sidebar-active);
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.sidebar-title p {
+    color: var(--sidebar-text);
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: -40px;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+}
+
+.holy-family {
+    color: #1380d3;
+    font-weight: bold;
+}
+
+.dental-clinic {
+    color: #00c4cc;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: white;
+    border-left: 3px solid var(--sidebar-active);
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.settings-menu a:hover, .return-home-menu a:hover {
+    background-color: rgba(0, 191, 255, 0.2); /* Hover background color */
+    color: white; /* Change text color on hover */
+    border-left: 3px solid var(--sidebar-active); /* Add left border */
+    display: block; /* Ensure the hover effect spans the full width */
+    width: 100%; /* Extend hover effect across the full width */
+    padding-right: 25px; /* Maintain alignment */
+}
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    margin-top: -10px;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    border: none;
+}
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--sidebar-active);
+    color: var(--sidebar-active);
+}
+
+.btn-outline:hover {
+    background-color: var(--sidebar-active);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    gap: 10px;
+}
+
+.theme-toggle-label {
+    font-size: 14px;
+    color: var(--text-color);
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #00bfff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .status-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .status-tab {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .status-tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .status-tab.inactive {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .search {
+            flex: 1;
+            margin-right: 15px;
+        }
+        
+        .search input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .filter {
+            padding: 10px 15px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 15px 0;
+        }
+        
+        .patient-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 1.5fr 1fr;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .patient-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 1.5fr 1fr;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .patient-row:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .patient-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .contact-details a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status.active {
+            background-color: #e3f7e8;
+            color: #27ae60;
+        }
+        
+        .status.inactive {
+            background-color: #fdeaea;
+            color: #e74c3c;
+        }
+        
+        .doctor {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .last-visit {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+
+        </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Holy Family Dental Clinic Logo" class="sidebar-logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="sidebar-title">
+                    <h2>
+                        <span class="holy-family">HOLY FAMILY</span><br>
+                        <span class="dental-clinic">DENTAL CLINIC</span>
+                    </h2>
+                    <p>Creating beautiful smiles for every family</p>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="appointment-request-logs.html"><i class="fas fa-clipboard-list"></i> <span>Appointment Request Logs</span></a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span> Appointment History</a></li>
+                <li><a href="patients.html" class="active" ><i class="fas fa-users"></i> <span>Patients</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="landingpage.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <!-- Add Return to Home menu at the bottom -->
+            <div style="position: absolute; bottom: 20px; width: 13%;">
+                <div style="position: absolute; bottom: 20px; width: 100%;">
+                    <ul class="sidebar-menu settings-menu">
+                        <li><a href="Admin settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                    <ul class="sidebar-menu return-home-menu">
+                        <li><a href="landingpage.html"><i class="fas fa-arrow-left"></i> Return to Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <header>
+                <h1>MedTrackr</h1>
+                <h2>Patients List</h2>
+                
+                <div class="status-tabs">
+                    <div class="status-tab active">Active (34)</div>
+                    <div class="status-tab inactive">Inactive (25)</div>
+                </div>
+                
+                <div class="search-filter">
+                    <div class="search">
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="filter">Filter</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="patient-header">
+                    <div>Patient name</div>
+                    <div>Contact details</div>
+                    <div>Date of Birth</div>
+                    <div>Status</div>
+                    <div>Doctor Assigned</div>
+                    <div>Last Visit</div>
+                </div>
+            </header>
+            
+            <main>
+                <div class="patient-row">
+                    <div class="patient-name">Kristina Casandra</div>
+                    <div class="contact-details">
+                        <div>0935-337-8245</div>
+                        <a href="https://www.kristina.com/">krstinacasandra@gmail.com</a>
+                    </div>
+                    <div>April 8, 2004</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="patient-id">2022-001</div>
+                    <div class="last-visit">March 20, 2025</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Ric Arvin De Silva</div>
+                    <div class="contact-details">
+                        <div>0934-596-0065</div>
+                        <a href="https://www.Desilva.com">ArvinDelSilva@gmail.com</a>
+                    </div>
+                    <div>May 23, 2000</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="patient-id">2020-027</div>
+                    <div class="last-visit">Jan. 5, 2025</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Sophia Abacco </div>
+                    <div class="contact-details">
+                        <div>0926-785-4561</div>
+                        <a href="https://www.lewis.com">SophiaAbacco@gmail.com</a>
+                    </div>
+                    <div>May 6, 2003</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="patient-id">2021-044</div>
+                    <div class="last-visit">Sep 4, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">John Smith</div>
+                    <div class="contact-details">
+                        <div>0975-893-8231</div>
+                        <a href="https://www.smith.com">smithJohn@gmail.com</a>
+                    </div>
+                    <div>October 5, 1998</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="patient-id">2022-038</div>
+                    <div class="last-visit">Nov 5, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Dianne Cruz</div>
+                    <div class="contact-details">
+                        <div>0945-778-9021</div>
+                        <a href="https://www.dianne.com">DiannneC@gmail.com</a>
+                    </div>
+                    <div>Jun 8, 2001</div>
+                    <div><span class="status inactive">Inactive</span></div>
+                    <div class="doctor">Dr. Emily Roberts</div>
+                    <div class="last-visit">Oct 4, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Wade Warren</div>
+                    <div class="contact-details">
+                        <div>[270] 555-0117</div>
+                        <a href="https://www.waterpub.com">jessica.hanson@example.com</a>
+                    </div>
+                    <div>August 19, 1999</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="doctor">Dr. Michael Hayes</div>
+                    <div class="last-visit">Oct 5, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Marvin McKinney</div>
+                    <div class="contact-details">
+                        <div>[209] 555-0104</div>
+                        <a href="https://www.marvin-kickinney.com">michelie.rivers@example.com</a>
+                    </div>
+                    <div>August 13, 2000</div>
+                    <div><span class="status inactive">Inactive</span></div>
+                    <div class="doctor">Dr. Sarah Collins</div>
+                    <div class="last-visit">Oct 12, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Esther Howard</div>
+                    <div class="contact-details">
+                        <div>[671] 555-0110</div>
+                        <a href="https://www.esther.harvard.edu">felicia.reid@example.com</a>
+                    </div>
+                    <div>April 12, 1979</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="doctor">Dr. William Scott</div>
+                    <div class="last-visit">Oct 6, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Kathryn Murphy</div>
+                    <div class="contact-details">
+                        <div>[629] 555-0129</div>
+                        <a href="https://www.kathryn.murphy.com">nevaeh.zimmons@example.com</a>
+                    </div>
+                    <div>May 12, 1998</div>
+                    <div><span class="status active">Active</span></div>
+                    <div class="doctor">Dr. Sophie Dubois</div>
+                    <div class="last-visit">Oct 7, 2024</div>
+                </div>
+                
+                <div class="patient-row">
+                    <div class="patient-name">Darrell Steward</div>
+                    <div class="contact-details">
+                        <div>[270] 555-0117</div>
+                        <a href="https://www.jarrell.steward.com">jessica.hanson@example.com</a>
+                    </div>
+                    <div>August 13, 2000</div>
+                    <div><span class="status inactive">Inactive</span></div>
+                    <div class="doctor">Dr. William Scott</div>
+                    <div class="last-visit">Oct 6, 2024</div>
+                </div>
+            </main>
+        </div>
+
+</body>
+</html>
