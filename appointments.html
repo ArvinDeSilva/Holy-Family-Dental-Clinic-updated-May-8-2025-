@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: url('HolyFAmDentalClinic Bacground pic.png') no-repeat;
+    background-size: cover;
+    background-position: center -150px;
+    background-attachment: fixed;
+    margin: 0;
+    transition: background-image 0.3s ease-in-out;
+    position: relative;
+    min-height: 50vh;
+    overflow-x: hidden;
+}
+
+        
+       /* Base Styles */
+       :root {
+            --bg-color: #f5f7fa;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: rgba(255, 255, 255, 0.8);
+            --sidebar-active: #00bfff;
+            --card-bg: white;
+            --text-color: #2c3e50;
+            --text-muted: #777;
+            --border-color: #eee;
+            --hover-bg: #f9f9f9;
+            --today-bg: #e6f7ff;
+            --selected-bg: #00bfff;
+            --selected-text: white;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --sidebar-bg: #121212;
+            --sidebar-text: rgba(255, 255, 255, 0.8);
+            --sidebar-active: #00bfff;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --text-muted: #aaa;
+            --border-color: #444;
+            --hover-bg: #333;
+            --today-bg: #003366;
+            --selected-bg: #006699;
+            --selected-text: white;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Existing Admin Styles */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
+            color: var(--sidebar-active);
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: white;
+            border-left: 3px solid var(--sidebar-active);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--text-color);
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Theme Toggle Switch */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            gap: 10px;
+        }
+
+        .theme-toggle-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #00bfff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Appointments Page Specific Styles */
+        .appointments-page {
+            width: 100%;
+        }
+
+        .appointments-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-container {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .filter-dropdown {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .filter-dropdown select {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-dropdown::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--text-muted);
+        }
+
+        .date-range-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-range-picker input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        /* Appointments List Styles */
+        .appointments-list-container {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .appointments-list-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .appointment-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: var(--card-bg);
+            transition: background-color 0.3s ease;
+            border-left: 4px solid #00bfff;
+        }
+
+        .appointment-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .appointment-item.walkin {
+            border-left-color: #FF9800;
+        }
+
+        .appointment-item.completed {
+            border-left-color: #4CAF50;
+        }
+
+        .appointment-item.canceled {
+            border-left-color: #F44336;
+        }
+
+        .appointment-item .patient-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .appointment-item .appointment-date {
+            color: var(--text-muted);
+        }
+
+        .appointment-item .appointment-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2E7D32;
+        }
+
+        .status-canceled {
+            background-color: #ffebee;
+            color: #C62828;
+        }
+
+        .status-walkin {
+            background-color: #fff3e0;
+            color: #EF6C00;
+        }
+
+        .appointment-item .appointment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .appointment-item .appointment-actions button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .view-btn {
+            background-color: #00bfff;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #009acd;
+        }
+
+        .complete-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .complete-btn:hover {
+            background-color: #388e3c;
+        }
+
+        .cancel-btn {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .no-appointments {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .appointments-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .appointments-list-header,
+            .appointment-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>DASHBOARD</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="appointments.html"class="active"><i class="fas fa-calendar-alt"></i> My Appointments</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Records</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="header">
+                <h1>My Appointments</h1>
+                <div style="display: flex; align-items: center;">
+                    <div class="user-info">
+                        <img src="doctor.png" alt="Doctor">
+                        <span>Dr. Winnerlyn Tutor-Resurreccion</span>
+                    </div>
+                    <div class="theme-toggle">
+                        <span class="theme-toggle-label">Dark Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="appointments-page">
+                <!-- Filters Section -->
+                <div class="appointments-filters">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search patients...">
+                    </div>
+                    
+                    <div class="filter-dropdown">
+                        <select id="statusFilter">
+                            <option value="all">All Appointments</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                            <option value="canceled">Canceled</option>
+                            <option value="walkin">Walk-ins</option>
+                        </select>
+                    </div>
+                    
+                    <div class="date-range-picker">
+                        <input type="date" id="startDate">
+                        <span>to</span>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+
+                <!-- Appointments List -->
+                <div class="appointments-list-container">
+                    <div class="appointments-list-header">
+                        <div>Patient Name</div>
+                        <div>Date & Time</div>
+                        <div>Status</div>
+                        <div>Actions</div>
+                    </div>
+                    
+                    <div id="appointmentsList">
+                        <!-- Appointments will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data - replace with actual data from your backend
+        const allAppointments = [
+            { 
+                id: 1,
+                name: 'SAMILLANO, KRISTINA CASANDRA S.', 
+                status: 'pending', 
+                time: '1:00 PM',
+                date: '2025-03-25',
+                type: 'scheduled',
+                formattedDate: 'MARCH 25, 2025'
+            },
+            { 
+                id: 2,
+                name: 'ABACCO, SOPHIA GRACE', 
+                status: 'pending', 
+                time: '2:00 PM',
+                date: '2025-03-25',
+                type: 'scheduled',
+                formattedDate: 'MARCH 25, 2025'
+            },
+            { 
+                id: 3,
+                name: 'CABISON, SAMMUEL D.V', 
+                status: 'completed', 
+                time: '3:30 PM',
+                date: '2025-03-25',
+                type: 'scheduled',
+                formattedDate: 'MARCH 25, 2025'
+            },
+            { 
+                id: 4,
+                name: 'WALK-IN PATIENT', 
+                status: 'walkin', 
+                time: '10:30 AM',
+                date: '2025-03-25',
+                type: 'walkin',
+                formattedDate: 'MARCH 25, 2025'
+            },
+            { 
+                id: 5,
+                name: 'SMITH, JOHN', 
+                status: 'pending', 
+                time: '10:00 AM',
+                date: '2025-03-30',
+                type: 'scheduled',
+                formattedDate: 'MARCH 30, 2025'
+            },
+            { 
+                id: 6,
+                name: 'WALK-IN PATIENT', 
+                status: 'walkin', 
+                time: '11:45 AM',
+                date: '2025-03-30',
+                type: 'walkin',
+                formattedDate: 'MARCH 30, 2025'
+            },
+            { 
+                id: 7,
+                name: 'DOE, JANE', 
+                status: 'completed', 
+                time: '9:00 AM',
+                date: '2025-04-01',
+                type: 'scheduled',
+                formattedDate: 'APRIL 1, 2025'
+            },
+            { 
+                id: 8,
+                name: 'WILLIAMS, MIKE', 
+                status: 'canceled', 
+                time: '11:30 AM',
+                date: '2025-04-01',
+                type: 'scheduled',
+                formattedDate: 'APRIL 1, 2025'
+            }
+        ];
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeLabel = document.querySelector('.theme-toggle-label');
+            
+            if (themeToggle.checked) {
+                html.setAttribute('data-theme', 'dark');
+                themeLabel.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.removeAttribute('data-theme');
+                themeLabel.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                themeToggle.checked = true;
+                toggleTheme();
+            }
+        }
+
+        // Filter appointments based on search and filters
+        function filterAppointments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            let filtered = allAppointments;
+            
+            // Apply search filter
+            if (searchTerm) {
+                filtered = filtered.filter(appt => 
+                    appt.name.toLowerCase().includes(searchTerm));
+            }
+            
+            // Apply status filter
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(appt => 
+                    statusFilter === 'walkin' ? 
+                    appt.type === 'walkin' : 
+                    appt.status === statusFilter
+                );
+            }
+            
+            // Apply date range filter
+            if (startDate) {
+                filtered = filtered.filter(appt => appt.date >= startDate);
+            }
+            if (endDate) {
+                filtered = filtered.filter(appt => appt.date <= endDate);
+            }
+            
+            renderAppointments(filtered);
+        }
+        
+        // Render appointments to the DOM
+        function renderAppointments(appointments) {
+            const container = document.getElementById('appointmentsList');
+            
+            if (appointments.length === 0) {
+                container.innerHTML = '<div class="no-appointments">No appointments found matching your criteria</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            appointments.forEach(appointment => {
+                const appointmentElement = document.createElement('div');
+                appointmentElement.className = `appointment-item ${appointment.type === 'walkin' ? 'walkin' : ''} ${appointment.status}`;
+                
+                let statusText = '';
+                let statusClass = '';
+                
+                if (appointment.type === 'walkin') {
+                    statusText = 'WALK-IN';
+                    statusClass = 'walkin';
+                } else {
+                    statusText = appointment.status.toUpperCase();
+                    statusClass = appointment.status;
+                }
+                
+                appointmentElement.innerHTML = `
+                    <div class="patient-name">${appointment.name}</div>
+                    <div class="appointment-date">${appointment.formattedDate} ${appointment.time}</div>
+                    <div>
+                        <span class="appointment-status status-${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="view-btn" data-id="${appointment.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        ${appointment.status === 'pending' && appointment.type !== 'walkin' ? `
+                        <button class="complete-btn" data-id="${appointment.id}">
+                            <i class="fas fa-check"></i> Complete
+                        </button>
+                        <button class="cancel-btn" data-id="${appointment.id}">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        ` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(appointmentElement);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const appointmentId = parseInt(e.currentTarget.getAttribute('data-id'));
+                    alert(`Viewing details for appointment ${appointmentId}`);
+                });
+            });
+            
+            document.querySelectorAll('.complete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const appointmentId = parseInt(e.currentTarget.getAttribute('data-id'));
+                    const appointment = allAppointments.find(a => a.id === appointmentId);
+                    if (appointment) {
+                        appointment.status = 'completed';
+                        filterAppointments();
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.cancel-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const appointmentId = parseInt(e.currentTarget.getAttribute('data-id'));
+                    const appointment = allAppointments.find(a => a.id === appointmentId);
+                    if (appointment) {
+                        appointment.status = 'canceled';
+                        filterAppointments();
+                    }
+                });
+            });
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            // Set default date range to current month
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            
+            document.getElementById('startDate').valueAsDate = firstDayOfMonth;
+            document.getElementById('endDate').valueAsDate = lastDayOfMonth;
+            
+            // Initial render
+            filterAppointments();
+            
+            // Add event listeners for filters
+            document.getElementById('searchInput').addEventListener('input', filterAppointments);
+            document.getElementById('statusFilter').addEventListener('change', filterAppointments);
+            document.getElementById('startDate').addEventListener('change', filterAppointments);
+            document.getElementById('endDate').addEventListener('change', filterAppointments);
+            
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('change', toggleTheme);
+            
+            // Highlight the current page in sidebar
+            const currentPage = window.location.pathname.split('/').pop();
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+            
+            /// Update the logout click event in both files
+            document.querySelector('.fa-sign-out-alt').closest('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                adminLogout();
+            });
+
+            // Make sure this function is defined in both files
+            function adminLogout() {
+                sessionStorage.setItem('wasLoggedOut', 'true');
+                localStorage.removeItem('userTypeChoice');
+                window.location.href = 'usertype.html';
+            }
+        });
+    </script>
+</body>
+</html>
